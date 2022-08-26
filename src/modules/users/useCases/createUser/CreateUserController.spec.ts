@@ -6,7 +6,7 @@ import { AppError } from "../../../../shared/errors/AppError";
 let connection:Connection
 
 
-describe("Create User Controller", () => {
+describe("Create User (Controller)", () => {
 
 
     beforeAll(async() => {
