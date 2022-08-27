@@ -64,17 +64,18 @@ describe('Get Statement Operation', () => {
     await connection.close();
   })
 
-  // it('should be able to show statement operation from user', async () => {
-  //   const response = await request(app)
-  //     .get(`/api/v1/statements/${statementId}`)
-  //     .set({
-  //       Authorization: `Bearer ${token}`,
-  //     });
 
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('user_id');
-  //   expect(response.body.id).toBe(statementId);
-  // });
+  it('should be able to show statement operation from user', async () => {
+    const response = await request(app)
+      .get(`/api/v1/statements/${statementId}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('user_id');
+    expect(response.body.id).toBe(statementId);
+  });
 
   it('should not be able to show statement operation from a non-existent user', async () => {
     await usersRepository.delete(userId);
@@ -85,7 +86,7 @@ describe('Get Statement Operation', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
   });
 
   it('should not be able to show statement from a non-existent operation', async () => {
@@ -97,6 +98,6 @@ describe('Get Statement Operation', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
   });
 })

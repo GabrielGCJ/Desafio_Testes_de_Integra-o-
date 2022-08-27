@@ -44,49 +44,49 @@ describe('Create Statement', () => {
     await connection.close();
   })
 
-  // it('should be able to create a deposit statement', async () => {
-  //   const response = await request(app)
-  //     .post('/api/v1/statements/deposit')
-  //     .send({
-  //       amount: 100.50,
-  //       description: 'Deposit Sample',
-  //     })
-  //     .set({
-  //       Authorization: `Bearer ${token}`,
-  //     });
+  it('should be able to create a deposit statement', async () => {
+    const response = await request(app)
+      .post('/api/v1/statements/deposit')
+      .send({
+        amount: 100.50,
+        description: 'Deposit Sample',
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
-  //   expect(response.status).toBe(201);
-  //   expect(response.body).toHaveProperty('id');
-  //   expect(response.body.user_id).toBe(userId);
-  //   expect(response.body.amount).toBe(100.50);
-  // });
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body.user_id).toBe(userId);
+    expect(response.body.amount).toBe(100.50);
+  });
 
-  // it('should be able to create a withdraw statement', async () => {
-  //   await request(app)
-  //     .post('/api/v1/statements/deposit')
-  //     .send({
-  //       amount: 100.10,
-  //       description: 'Deposit Sample',
-  //     })
-  //     .set({
-  //       Authorization: `Bearer ${token}`,
-  //     });
+  it('should be able to create a withdraw statement', async () => {
+    await request(app)
+      .post('/api/v1/statements/deposit')
+      .send({
+        amount: 100.10,
+        description: 'Deposit Sample',
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
-  //   const response = await request(app)
-  //     .post('/api/v1/statements/withdraw')
-  //     .send({
-  //       amount: 50.99,
-  //       description: 'Withdraw Sample',
-  //     })
-  //     .set({
-  //       Authorization: `Bearer ${token}`,
-  //     });
+    const response = await request(app)
+      .post('/api/v1/statements/withdraw')
+      .send({
+        amount: 50.99,
+        description: 'Withdraw Sample',
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
-  //   expect(response.status).toBe(201);
-  //   expect(response.body).toHaveProperty('id');
-  //   expect(response.body.user_id).toBe(userId);
-  //   expect(response.body.amount).toBe(50.99);
-  // });
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body.user_id).toBe(userId);
+    expect(response.body.amount).toBe(50.99);
+  });
 
   it('should not be able to create a withdraw statement without balance', async () => {
     const response = await request(app)
@@ -99,7 +99,7 @@ describe('Create Statement', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(500);
   });
 
   it('should not be able to create a statement with an non-existent user', async () => {
@@ -115,6 +115,6 @@ describe('Create Statement', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(404);
   });
 })

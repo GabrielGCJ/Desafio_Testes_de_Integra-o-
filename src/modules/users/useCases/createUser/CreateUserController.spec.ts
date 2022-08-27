@@ -23,8 +23,8 @@ describe("Create User (Controller)", () => {
 
 
         const response = await request(app).post("/api/v1/users").send({
-            name: "pedro",
-            email: "pedromatheusduarte",
+            name: "teste",
+            email: "teste@teste.com",
             password: "1234"
         })
 
@@ -34,14 +34,14 @@ describe("Create User (Controller)", () => {
     it("should not be able to create a new user with name exists", async() => {
 
         await request(app).post("/api/v1/users").send({
-            name: "pedro",
-            email: "pedromatheusduarte",
+            name: "teste",
+            email: "teste@teste.com",
             password: "1234"
         })
 
         const response = await request(app).post("/api/v1/users").send({
-            name: "pedro",
-            email: "pedromatheusduarte",
+            name: "teste",
+            email: "teste@teste.com",
             password: "1234"
         })
 

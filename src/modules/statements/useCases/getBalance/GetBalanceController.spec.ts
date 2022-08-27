@@ -70,18 +70,18 @@ describe('Get User Balance', () => {
     await connection.close();
   })
 
-  // it('should be able to get balance from user', async () => {
-  //   const response = await request(app)
-  //     .get('/api/v1/statements/balance')
-  //     .set({
-  //       Authorization: `Bearer ${token}`,
-  //     });
+  it('should be able to get balance from user', async () => {
+    const response = await request(app)
+      .get('/api/v1/statements/balance')
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('balance');
-  //   expect(response.body).toHaveProperty('statement');
-  //   expect(response.body.balance).toBe(70);
-  // });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('balance');
+    expect(response.body).toHaveProperty('statement');
+    expect(response.body.balance).toBe(70);
+  });
 
   it('should not be able to get statements from not founded user', async () => {
     await usersRepository.delete(userId);
@@ -92,6 +92,6 @@ describe('Get User Balance', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(401)
+    expect(response.status).toBe(404)
   });
 })

@@ -41,17 +41,17 @@ describe('Show User Profile', () => {
     await connection.close();
   })
 
-  // it('should be able to show authenticated user profile', async () => {
-  //   const response = await request(app)
-  //     .get('/api/v1/profile')
-  //     .set({
-  //       Authorization: `Bearer ${token}`,
-  //     });
+  it('should be able to show authenticated user profile', async () => {
+    const response = await request(app)
+      .get('/api/v1/profile')
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('id');
-  //   expect(response.body.email).toEqual(user.email);
-  // });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body.email).toEqual(user.email);
+  });
 
   it('should not be able to show profile of a non user', async () => {
     // const { secret, expiresIn } = authConfig.jwt;
@@ -67,6 +67,6 @@ describe('Show User Profile', () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(401);
+    expect(response.status).toBe(500);
   });
 })

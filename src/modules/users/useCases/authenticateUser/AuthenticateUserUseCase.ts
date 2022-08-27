@@ -9,6 +9,11 @@ import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { IAuthenticateUserResponseDTO } from "./IAuthenticateUserResponseDTO";
 import { IncorrectEmailOrPasswordError } from "./IncorrectEmailOrPasswordError";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
+
 interface IRequest {
   email: string;
   password: string;
@@ -34,11 +39,11 @@ export class AuthenticateUserUseCase {
       throw new IncorrectEmailOrPasswordError();
     }
 
-    const { secret, expiresIn } = authConfig.jwt;
+    // const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({ user }, 'senhasupersecreta123', {
+    const token = sign({ user }, process.env.JWT_SECRET as string, {
       subject: user.id,
-      expiresIn,
+      expiresIn: "1d" ,
     });
 
     return {
