@@ -14,7 +14,7 @@ let user: User;
 let userId: string;
 let token: string;
 
-describe('Create Statement', () => {
+describe('Testes de depósito e saque (Controller)', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -33,7 +33,7 @@ describe('Create Statement', () => {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    token = sign({ user }, "senhasupersecreta123", {
+    token = sign({ user }, secret, {
       subject: user.id,
       expiresIn,
     });
@@ -44,7 +44,7 @@ describe('Create Statement', () => {
     await connection.close();
   })
 
-  it('should be able to create a deposit statement', async () => {
+  it('Deve ser capaz de criar um extrato de depósito', async () => {
     const response = await request(app)
       .post('/api/v1/statements/deposit')
       .send({
@@ -61,7 +61,7 @@ describe('Create Statement', () => {
     expect(response.body.amount).toBe(100.50);
   });
 
-  it('should be able to create a withdraw statement', async () => {
+  it('Deve ser capaz de criar uma declaração de retirada', async () => {
     await request(app)
       .post('/api/v1/statements/deposit')
       .send({
@@ -88,7 +88,7 @@ describe('Create Statement', () => {
     expect(response.body.amount).toBe(50.99);
   });
 
-  it('should not be able to create a withdraw statement without balance', async () => {
+  it('Não deve ser capaz de criar um extrato de retirada sem saldo', async () => {
     const response = await request(app)
       .post('/api/v1/statements/withdraw')
       .send({
@@ -102,7 +102,8 @@ describe('Create Statement', () => {
     expect(response.status).toBe(500);
   });
 
-  it('should not be able to create a statement with an non-existent user', async () => {
+  it('Não deve ser capaz de criar uma declaração com um usuário inexistente', async () => {
+    
     await usersRepository.delete(userId);
 
     const response = await request(app)

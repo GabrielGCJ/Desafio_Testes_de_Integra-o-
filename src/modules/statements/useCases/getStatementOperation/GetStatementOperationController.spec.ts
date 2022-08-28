@@ -22,7 +22,7 @@ enum OperationType {
   WITHDRAW = 'withdraw',
 }
 
-describe('Get Statement Operation', () => {
+describe('Obter operação de extrato', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -42,7 +42,7 @@ describe('Get Statement Operation', () => {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    token = sign({ user }, "senhasupersecreta123", {
+    token = sign({ user }, secret, {
       subject: user.id,
       expiresIn,
     });
@@ -65,7 +65,7 @@ describe('Get Statement Operation', () => {
   })
 
 
-  it('should be able to show statement operation from user', async () => {
+  it('Deve ser capaz de mostrar a operação de instrução do usuário', async () => {
     const response = await request(app)
       .get(`/api/v1/statements/${statementId}`)
       .set({
@@ -77,7 +77,7 @@ describe('Get Statement Operation', () => {
     expect(response.body.id).toBe(statementId);
   });
 
-  it('should not be able to show statement operation from a non-existent user', async () => {
+  it('Não deve ser capaz de mostrar a operação de instrução de um usuário inexistente', async () => {
     await usersRepository.delete(userId);
 
     const response = await request(app)
@@ -89,7 +89,7 @@ describe('Get Statement Operation', () => {
     expect(response.status).toBe(404);
   });
 
-  it('should not be able to show statement from a non-existent operation', async () => {
+  it('Não deve ser capaz de mostrar a instrução de uma operação inexistente', async () => {
     await statementsRepository.delete(statementId);
 
     const response = await request(app)

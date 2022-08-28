@@ -6,7 +6,7 @@ import { AppError } from "../../../../shared/errors/AppError";
 let connection:Connection
 
 
-describe("Create User (Controller)", () => {
+describe("Criar usuário (Controller)", () => {
 
 
     beforeAll(async() => {
@@ -19,7 +19,7 @@ describe("Create User (Controller)", () => {
         await connection.close()
     })
 
-    it("should be able to create a new User", async() => {
+    it("Deve ser capaz de criar um novo usuário", async() => {
 
 
         const response = await request(app).post("/api/v1/users").send({
@@ -31,7 +31,7 @@ describe("Create User (Controller)", () => {
         expect(response.status).toBe(201)
     }),
 
-    it("should not be able to create a new user with name exists", async() => {
+    it("não deve ser capaz de criar um novo usuário com email já existente", async() => {
 
         await request(app).post("/api/v1/users").send({
             name: "teste",

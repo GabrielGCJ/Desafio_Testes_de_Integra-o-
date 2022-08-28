@@ -12,7 +12,7 @@ let connection: Connection;
 let usersRepository: Repository<User>;
 let user: User;
 
-describe('Authenticate User', () => {
+describe('Autenticar usuário (Controller)', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -33,7 +33,7 @@ describe('Authenticate User', () => {
     await connection.close();
   })
 
-  it('should be able to authenticate an user', async () => {
+  it('Deve ser capaz de autenticar um usuário', async () => {
     const response = await request(app)
       .post('/api/v1/sessions')
       .send({
@@ -46,7 +46,7 @@ describe('Authenticate User', () => {
     expect(response.body.user.email).toEqual(user.email);
   });
 
-  it('should not be able to authenticate with non existing user', async () => {
+  it('Não deve ser capaz de autenticar com um usuário não existente', async () => {
     const response = await request(app)
       .post('/api/v1/sessions')
       .send({
@@ -57,7 +57,7 @@ describe('Authenticate User', () => {
     expect(response.status).toBe(401);
   });
 
-  it('should not be able to authenticate with wrong password', async () => {
+  it('Não deve ser capaz de autenticar com senha errada', async () => {
     const response = await request(app)
       .post('/api/v1/sessions')
       .send({

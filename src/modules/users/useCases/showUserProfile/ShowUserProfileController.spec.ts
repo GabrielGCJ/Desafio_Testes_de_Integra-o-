@@ -3,7 +3,7 @@ import request from 'supertest';
 import { hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
-// import authConfig from '../../../../config/auth';
+import authConfig from '../../../../config/auth';
 
 import { app } from "../../../../app";
 import { User } from "../../entities/User";
@@ -13,7 +13,7 @@ let usersRepository: Repository<User>;
 let user: User;
 let token: string;
 
-describe('Show User Profile', () => {
+describe('Mostrar perfil do usuário (Controller)', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -28,11 +28,11 @@ describe('Show User Profile', () => {
 
     user = await usersRepository.save(user);
 
-    // const { secret, expiresIn } = authConfig.jwt;
+    const { secret, expiresIn } = authConfig.jwt;
 
-    token = sign({ user }, "senhasupersecreta123", {
+    token = sign({ user }, secret, {
       subject: user.id,
-      expiresIn: "1d",
+      expiresIn: expiresIn,
     });
   });
 
@@ -41,8 +41,10 @@ describe('Show User Profile', () => {
     await connection.close();
   })
 
-  it('should be able to show authenticated user profile', async () => {
+  it('Deve ser capaz de mostrar o perfil de usuário autenticado', async () => {
+
     const response = await request(app)
+    
       .get('/api/v1/profile')
       .set({
         Authorization: `Bearer ${token}`,
@@ -53,12 +55,13 @@ describe('Show User Profile', () => {
     expect(response.body.email).toEqual(user.email);
   });
 
-  it('should not be able to show profile of a non user', async () => {
-    // const { secret, expiresIn } = authConfig.jwt;
+  it('Não deve ser capaz de mostrar o perfil de um não usuário', async () => {
 
-    token = sign({ name: 'not-valid-user' }, "senhasupersecreta123", {
+    const { secret, expiresIn } = authConfig.jwt;
+
+    token = sign({ name: 'not-valid-user' }, secret, {
       subject: 'not-valid-id',
-      expiresIn: "1d",
+      expiresIn: expiresIn,
     });
 
     const response = await request(app)

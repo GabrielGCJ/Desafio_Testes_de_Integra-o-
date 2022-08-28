@@ -21,7 +21,7 @@ enum OperationType {
   WITHDRAW = 'withdraw',
 }
 
-describe('Get User Balance', () => {
+describe('Obter saldo do usuário', () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -41,7 +41,7 @@ describe('Get User Balance', () => {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    token = sign({ user }, "senhasupersecreta123", {
+    token = sign({ user }, secret, {
       subject: user.id,
       expiresIn,
     });
@@ -70,7 +70,7 @@ describe('Get User Balance', () => {
     await connection.close();
   })
 
-  it('should be able to get balance from user', async () => {
+  it('Deve ser capaz de obter saldo do usuário', async () => {
     const response = await request(app)
       .get('/api/v1/statements/balance')
       .set({
@@ -83,7 +83,7 @@ describe('Get User Balance', () => {
     expect(response.body.balance).toBe(70);
   });
 
-  it('should not be able to get statements from not founded user', async () => {
+  it('Não deve ser capaz de obter declarações de usuário não fundado', async () => {
     await usersRepository.delete(userId);
 
     const response = await request(app)
