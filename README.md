@@ -35,11 +35,11 @@ https://www.docker.com/
 
 Clone este repositório em sua máquina:
 
-`git clone https://github.com/GabrielGCJ/rocketseat-chapter-IV-desafioTestesUnitarios.git`
+`git clone https://github.com/GabrielGCJ/rocketseat-chapter-IV-desafioTestesDeIntegracao.git`
 
 Entre na pasta do projeto:
 
-`cd rocketseat-chapter-IV-desafioTestesUnitarios`
+`cd rocketseat-chapter-IV-desafioTestesDeIntegracao`
 
 Instale o projeto:
 
